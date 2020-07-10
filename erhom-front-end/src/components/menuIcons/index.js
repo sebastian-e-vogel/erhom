@@ -3,11 +3,11 @@ import {List, ListItem, ListItemIcon, ListItemText, Divider} from '@material-ui/
 import MotorcycleIcon from '@material-ui/icons/Motorcycle';
 import SportsMotorsportsIcon from '@material-ui/icons/SportsMotorsports';
 
-const MenuIcons = () => {
+const MenuIcons = (props) => {
 
 return (
     <List component='nav'>
-    <ListItem button>
+    <ListItem button onClick={()=> props.onClose()}>
 
         <ListItemIcon>
             <MotorcycleIcon/>
@@ -16,7 +16,7 @@ return (
 
     </ListItem>
 
-        <ListItem button>
+        <ListItem button onClick={()=> props.onClose()}>
 
         <ListItemIcon>
             <SportsMotorsportsIcon/>

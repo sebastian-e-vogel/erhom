@@ -26,7 +26,7 @@ const MenuLeft = (props) => {
     >
       <div className={classes.toolbar} />
       <Divider />
-        <MenuIcons />
+        <MenuIcons onClose={props.onClose}/>
     </Drawer>
   );
 };
