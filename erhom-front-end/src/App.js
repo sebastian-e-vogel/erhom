@@ -1,21 +1,16 @@
-import React, { useState } from "react";
-import "./App.css";
-import FormViajes from "./components/formViajes";
-import TablaViajes from "./components/viajes";
+import React from "react";
+
+import {ThemeProvider } from '@material-ui/core/styles'
+import theme from './themeConfig'
+import Container from './components/Container'
 
 function App() {
-  const [viajes, setViajes] = useState([]);
-
-  const handleData = (viaje) => {
-    setViajes([...viajes, viaje]);
-  };
+ 
 
   return (
-    <div className="App">
-      <h1> Ingresar viaje </h1>
-      <FormViajes data={(viaje) => handleData(viaje)} />
-      <TablaViajes viajes={viajes}/>
-    </div>
+    <ThemeProvider theme={theme}>
+      <Container/>
+    </ThemeProvider>
   );
 }
 
