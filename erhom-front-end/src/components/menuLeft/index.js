@@ -14,13 +14,15 @@ const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
 }));
 
-const MenuLeft = () => {
+const MenuLeft = (props) => {
   const classes = useStyles();
   return (
     <Drawer
       className={classes.drawer}
-      variant="permanent"
+      variant={props.variant}
+      open={props.open}
       classes={{ paper: classes.drawerPaper }}
+      onClose={ props.onClose ? props.onClose : null}
     >
       <div className={classes.toolbar} />
       <Divider />

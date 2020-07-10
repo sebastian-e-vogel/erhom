@@ -5,21 +5,25 @@ import MenuIcon from '@material-ui/icons/Menu'
 
 const useStyles = makeStyles((theme)=>({
     root:{
-        marginRight: theme.spacing(2)
+        marginRight: theme.spacing(2),
+        [theme.breakpoints.up('sm')]:{
+            display:'none',
+        }
     },
     appBar: {
+        [theme.breakpoints.up('sm')]:{
         width: `calc(100% - ${240}px)`,
         marginLeft: 240,
+        }
     }
 }))
 
-const NavBar = () =>{
+const NavBar = (props) =>{
     const classes = useStyles()
     return (
-        <div>
         <AppBar className={classes.appBar}>
             <Toolbar>
-            <IconButton color='inherit' aria-label='menu' className={classes.root}>
+            <IconButton  onClick={props.openMenu} color='inherit' aria-label='menu' className={classes.root}>
             <MenuIcon/>
             </IconButton>
                 <Typography>
@@ -30,8 +34,6 @@ const NavBar = () =>{
 
         </AppBar>   
 
-
-         </div>
     )
     
 }
