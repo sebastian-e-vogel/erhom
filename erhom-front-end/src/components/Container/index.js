@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { BrowserRouter, Route } from "react-router-dom";
 import FormViajes from "../formViajes";
 import TablaViajes from "../viajes";
 import NavBar from "../navBar";
@@ -24,33 +25,34 @@ const Container = () => {
     setViajes([...viajes, viaje]);
   };
 
-
-
   const classes = styles();
   return (
-    <div className={classes.root}>
-      <NavBar openMenu={()=> setOpen(!open)}/>
-      <Hidden xsDown>
-        <MenuLeft 
-        variant="permanent" 
-        open={true} 
-        />
-      </Hidden>
-      <Hidden smUp>
-        <MenuLeft 
-        variant="temporary" 
-        open={open} 
-        onClose={() => setOpen(!open)}
-        />
-      </Hidden>
+    <BrowserRouter>
+      <div className={classes.root}>
+        <NavBar openMenu={() => setOpen(!open)} />
+        <Hidden xsDown>
+          <MenuLeft variant="permanent" open={true} />
+        </Hidden>
+        <Hidden smUp>
+          <MenuLeft
+            variant="temporary"
+            open={open}
+            onClose={() => setOpen(!open)}
+          />
+        </Hidden>
 
-      <div className={classes.content}>
-        <div className={classes.toolbar}>
-          <FormViajes data={(viaje) => handleData(viaje)} />
-          <TablaViajes viajes={viajes} />
+        <div className={classes.content}>
+          <div className={classes.toolbar}>
+            <Route path="/viajes">
+              <FormViajes data={(viaje) => handleData(viaje)} />
+            </Route>
+            <Route path="/consultas">
+              <TablaViajes viajes={viajes} />
+            </Route>
+          </div>
         </div>
       </div>
-    </div>
+    </BrowserRouter>
   );
 };
 
