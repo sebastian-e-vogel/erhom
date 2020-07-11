@@ -1,4 +1,15 @@
 import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+
+import {
+  Grid,
+  TextField,
+  FormControlLabel,
+  Button,
+  Select,
+  Checkbox,
+  Typography,
+} from "@material-ui/core";
 
 const fleteros = [
   { id: 1, name: "nacho", comision: 50 },
@@ -21,6 +32,16 @@ function FormViajes(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     props.data(viaje);
+    setViaje({
+      fleteroId: "",
+      nombreCliente: "",
+      direccionDesde: "",
+      direccionHasta: "",
+      fecha: "",
+      precio: "",
+      comentarios: "",
+      viajeCobrado: false,
+    });
   };
 
   const handleChange = (e) => {
@@ -31,57 +52,117 @@ function FormViajes(props) {
     setViaje({ ...viaje, viajeCobrado: !viaje.viajeCobrado });
   };
 
+  const useStyles = makeStyles((theme) => ({
+    layout: {
+      display: "flex",
+      flexDirection: "column",
+      flexWrap: "wrap",
+    },
+  }));
+
+  const classes = useStyles();
+
   return (
-    <div className="formViajes">
-      <form onSubmit={handleSubmit}>
-        <select name="fleteroId" onChange={handleChange} 
-        required
-        >
-          {fleteros.map((fletero) => {
-            return <option value={fletero.id}>{fletero.name}</option>;
-          })}
-        </select>
-        <input type="date" name="fecha" onChange={handleChange} />
-        <input
-          placeholder="Nombre del Cliente"
-          onChange={handleChange}
-          name="nombreCliente"
-          required
-        />
-        <p>
-          Se cobro el viaje?
-          <input type="checkbox" onChange={handleChangeCheckbox} />
-        </p>
-        <p>
-          Dirección del viaje
-          <input
-            placeholder="Desde"
+    <main className={classes.layout}>
+      <Typography variant="h6" gutterBottom>
+        Ingresar Nuevo Viaje
+      </Typography>
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={5}>
+          <TextField
+            type="date"
+            name="fecha"
+            onChange={handleChange}
+            required
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} md={7}>
+          <Select
+            native
+            name="fleteroId"
+            fullWidth
+            onChange={handleChange}
+            required
+          >
+            <option></option>
+            {fleteros.map((fletero) => {
+              return <option value={fletero.id}>{fletero.name}</option>;
+            })}
+          </Select>
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            onChange={handleChange}
+            name="nombreCliente"
+            required
+            value={viaje.nombreCliente}
+            label="Nombre del Cliente"
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <TextField
             name="direccionDesde"
             onChange={handleChange}
+            value={viaje.direccionDesde}
             required
+            label="Desde"
+            fullWidth
           />
-          <input
-            placeholder="Hasta"
-            onChange={handleChange}
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <TextField
             name="direccionHasta"
+            onChange={handleChange}
+            value={viaje.direccionHasta}
             required
+            label="Hasta"
+            fullWidth
           />
-          <input
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <TextField
             type="number"
             name="precio"
-            placeholder="Monto del viaje"
             onChange={handleChange}
+            value={viaje.precio}
             required
+            fullWidth
+            label="Precio"
           />
-        </p>
-        <textarea
-          placeholder="comentarios"
-          onChange={handleChange}
-          name="comentarios"
-        />
-        <input type="submit" value="Enviar" />
-      </form>
-    </div>
+        </Grid>
+        <Grid item xs={12}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                color="primary"
+                checked={viaje.viajeCobrado}
+                onChange={handleChangeCheckbox}
+              />
+            }
+            label="Cobro el viaje?"
+          />
+        </Grid>
+
+        <Grid item xs={12}>
+          <TextField
+            multiline
+            onChange={handleChange}
+            value={viaje.comentarios}
+            name="comentarios"
+            fullWidth
+            label="Comentarios"
+          />
+        </Grid>
+
+        <Grid item xs={12}>
+          <Button onClick={handleSubmit} variant="contained" color="primary">
+            enviar
+          </Button>
+        </Grid>
+      </Grid>
+    </main>
   );
 }
 
