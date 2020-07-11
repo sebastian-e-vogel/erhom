@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import {
@@ -11,11 +12,7 @@ import {
   Typography,
 } from "@material-ui/core";
 
-const fleteros = [
-  { id: 1, name: "nacho", comision: 50 },
-  { id: 2, name: "fletero2", comision: 10 },
-  { id: 3, name: "fletero3", comision: 25 },
-];
+const fleteros = [{ id: 1, name: "nacho", comision: 50 }];
 
 function FormViajes(props) {
   const [viaje, setViaje] = useState({
@@ -24,7 +21,7 @@ function FormViajes(props) {
     direccionDesde: "",
     direccionHasta: "",
     fecha: "",
-    precio: "",
+    precio: 0,
     comentarios: "",
     viajeCobrado: false,
   });
@@ -33,15 +30,30 @@ function FormViajes(props) {
     e.preventDefault();
     props.data(viaje);
     setViaje({
-      fleteroId: "",
       nombreCliente: "",
       direccionDesde: "",
       direccionHasta: "",
-      fecha: "",
       precio: "",
       comentarios: "",
       viajeCobrado: false,
     });
+  };
+
+  useEffect(() => {
+    props.editable
+      ? setViaje({
+          nombreCliente: props.data.nombreCliente,
+          direccionDesde: props.data.direccionDesde,
+          direccionHasta: props.data.direccionHasta,
+          precio: props.data.precio,
+          comentarios: props.data.comentarios,
+          viajeCobrado: props.data.viajeCobrado,
+        })
+      : setViaje({ ...viaje });
+  }, []);
+
+  const handleEdit = (e) => {
+    e.preventDefault();
   };
 
   const handleChange = (e) => {
@@ -155,10 +167,13 @@ function FormViajes(props) {
             label="Comentarios"
           />
         </Grid>
-
         <Grid item xs={12}>
-          <Button onClick={handleSubmit} variant="contained" color="primary">
-            enviar
+          <Button
+            onClick={props.editable ? handleEdit : handleSubmit}
+            variant="contained"
+            color="primary"
+          >
+            {props.editable ? "Editar" : "Enviar"}
           </Button>
         </Grid>
       </Grid>

@@ -20,10 +20,15 @@ const styles = makeStyles((theme) => ({
 const Container = () => {
   const [viajes, setViajes] = useState([]);
   const [open, setOpen] = useState(false);
+  const [infoEditable, setInfoEditable] = useState({})
 
   const handleData = (viaje) => {
     setViajes([...viajes, viaje]);
   };
+
+ const handlePrueba =(info)=>{
+   setInfoEditable(info)
+ }
 
   const classes = styles();
   return (
@@ -46,8 +51,11 @@ const Container = () => {
             <Route path="/viajes">
               <FormViajes data={(viaje) => handleData(viaje)} />
             </Route>
+             <Route path="/edit">
+              <FormViajes data={infoEditable} editable={true}/>
+            </Route>
             <Route path="/consultas">
-              <TablaViajes viajes={viajes} />
+              <TablaViajes viajes={viajes} edit={handlePrueba}/>
             </Route>
           </div>
         </div>

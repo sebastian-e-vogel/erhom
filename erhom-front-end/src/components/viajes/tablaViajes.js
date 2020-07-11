@@ -9,10 +9,6 @@ import {
 } from "@material-ui/core/";
 import Row from "./row";
 
-
-
-
-
 const CollapsibleTable = (props) => {
   return (
     <TableContainer>
@@ -28,7 +24,9 @@ const CollapsibleTable = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-            <Row viajes={props.viajes} />
+          {props.viajes.map((viaje) => (
+            <Row viaje={viaje} edit={props.edit}/>
+          ))}
         </TableBody>
       </Table>
     </TableContainer>
