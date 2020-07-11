@@ -1,5 +1,10 @@
 import React from "react";
 import "./styles.css";
+import {
+  Grid,
+  Typography,
+} from "@material-ui/core";
+import CollapsibleTable from './tablaViajes'
 
 function TablaViajes(props) {
   let totalViajes = props.viajes.reduce((acc, obj) => {
@@ -19,41 +24,53 @@ function TablaViajes(props) {
   let totalFacu = (totalViajes * comisionFacu) / 100;
 
   return (
-    <div className="tablaViajes">
-      {props.viajes.map((viaje) => {
-        return (
-          <div className="tabla">
-            <p>Fecha: {viaje.fecha} </p>
-            <p>Fletero: {viaje.fleteroId} </p>
-            <p>Cobro el viaje?: {viaje.viajeCobrado ? "si" : "no"} </p>
-            <p>Cliente: {viaje.nombreCliente} </p>
-            <p>Desde: {viaje.direccionDesde} </p>
-            <p>Hasta: {viaje.direccionHasta} </p>
-            <p>Valor: {viaje.precio} </p>
-            <p>comentarios: {viaje.comentarios} </p>
-          </div>
-        );
-      })}
-      Total Viajes: ${totalViajes} <br />
-      <br />
-      Cobrado por fletero: ${cobradoFletero} <br />
-      <br />
-      Comision Facu: {comisionFacu} %<br />
-      <br />
-      Total Facu: ${totalFacu}
-      <br />
-      <br />
-      Total Fletero: ${totalFletero}
-      <br />
-      <br />
-      fletero debe: $
-      {cobradoFletero > totalFletero ? cobradoFletero - totalFletero : 0}
-      <br />
-      <br />
-      facu debe: $
-      {cobradoFletero < totalFletero ? totalFletero - cobradoFletero : 0}
-      <br />
-      <br />
+    <div className="grid-freight">
+      <div className="deliverys-grid">
+     <CollapsibleTable viajes={props.viajes}/>
+     </div>
+        <Grid container spacing={4}>
+        <Grid item xs={12} md={4}>
+          <Typography >
+           {`Total Viajes: $${totalViajes}` }
+          </Typography>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Typography>
+           {`Cobrado por fletero: $${cobradoFletero}` }
+          </Typography>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Typography>
+           {`Comision Facu: ${comisionFacu}%` }
+          </Typography>
+        </Grid>
+                <Grid item xs={12} md={4}>
+        <Typography>
+           {`Facu debe: $${cobradoFletero < totalFletero ? totalFletero - cobradoFletero : 0}` }
+          </Typography>
+         
+        </Grid>
+        <Grid item xs={12} md={6}>
+           <Typography>
+           {`Fletero debe: $${cobradoFletero > totalFletero ? cobradoFletero - totalFletero : 0}` }
+          </Typography>
+        </Grid>
+          <Grid item xs={12} md={4} >
+          <Typography >
+           {`Total Facu: $${totalFacu}` }
+          </Typography>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Typography>
+           {`Total Fletero: $${totalFletero}` }
+          </Typography>
+        </Grid>  
+
+
+
+        </Grid>
+
+       
     </div>
   );
 }

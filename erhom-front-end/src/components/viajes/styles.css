@@ -1,16 +1,9 @@
-.tablaViajes{
-    /* border: 1px solid red; */
+.grid-freight{
     display: flex;
     flex-direction: column;
 }
 
-.tabla{
-    border: 1px solid blue;
-    margin-top: 10px;
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
+.deliverys-grid{
+    margin-bottom: 50px;
 }
-.tabla p{
-    width: 33.3%;
-}
+
