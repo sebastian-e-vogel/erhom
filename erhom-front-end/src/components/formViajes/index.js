@@ -8,11 +8,16 @@ import {
   FormControlLabel,
   Button,
   Select,
+  Input,
   Checkbox,
   Typography,
+  FormGroup,
 } from "@material-ui/core";
 
-const fleteros = [{ id: 1, name: "nacho", comision: 50 }];
+const fleteros = [
+  { id: 1, name: "nacho", comision: 50 },
+  { id: 2, name: "pepe", comision: 30 },
+];
 
 function FormViajes(props) {
   const [viaje, setViaje] = useState({
@@ -21,7 +26,7 @@ function FormViajes(props) {
     direccionDesde: "",
     direccionHasta: "",
     fecha: "",
-    precio: 0,
+    precio: "",
     comentarios: "",
     viajeCobrado: false,
   });
@@ -30,10 +35,10 @@ function FormViajes(props) {
     e.preventDefault();
     props.data(viaje);
     setViaje({
+      ...viaje,
       nombreCliente: "",
       direccionDesde: "",
       direccionHasta: "",
-      precio: "",
       comentarios: "",
       viajeCobrado: false,
     });
@@ -46,6 +51,8 @@ function FormViajes(props) {
           direccionDesde: props.data.direccionDesde,
           direccionHasta: props.data.direccionHasta,
           precio: props.data.precio,
+          fleteroId: props.data.fleteroId,
+          fecha: props.data.fecha,
           comentarios: props.data.comentarios,
           viajeCobrado: props.data.viajeCobrado,
         })
@@ -75,7 +82,7 @@ function FormViajes(props) {
   const classes = useStyles();
 
   return (
-    <main className={classes.layout}>
+    <form className={classes.layout} onSubmit={props.editable ? handleEdit : handleSubmit}>
       <Typography variant="h6" gutterBottom>
         Ingresar Nuevo Viaje
       </Typography>
@@ -83,6 +90,7 @@ function FormViajes(props) {
         <Grid item xs={12} md={5}>
           <TextField
             type="date"
+            value={viaje.fecha}
             name="fecha"
             onChange={handleChange}
             required
@@ -94,6 +102,7 @@ function FormViajes(props) {
             native
             name="fleteroId"
             fullWidth
+            value={viaje.fleteroId}
             onChange={handleChange}
             required
           >
@@ -158,7 +167,7 @@ function FormViajes(props) {
         </Grid>
 
         <Grid item xs={12}>
-          <TextField
+          <Input
             multiline
             onChange={handleChange}
             value={viaje.comentarios}
@@ -169,15 +178,15 @@ function FormViajes(props) {
         </Grid>
         <Grid item xs={12}>
           <Button
-            onClick={props.editable ? handleEdit : handleSubmit}
             variant="contained"
+            type="submit"
             color="primary"
           >
             {props.editable ? "Editar" : "Enviar"}
           </Button>
         </Grid>
       </Grid>
-    </main>
+    </form>
   );
 }
 

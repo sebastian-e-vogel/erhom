@@ -30,18 +30,15 @@ const useRowStyles = makeStyles({
   },
 });
 
-
-
 const Row = (props) => {
   const { viaje, edit } = props;
 
   const [open, setOpen] = useState(false);
   const classes = useRowStyles();
 
-const handleEdit = () =>{
-  edit(viaje)
-}
- 
+  const handleEdit = () => {
+    edit(viaje);
+  };
 
   return (
     <React.Fragment>
