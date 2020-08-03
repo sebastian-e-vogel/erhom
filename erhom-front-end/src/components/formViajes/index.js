@@ -11,7 +11,6 @@ import {
   Input,
   Checkbox,
   Typography,
-  FormGroup,
 } from "@material-ui/core";
 
 const fleteros = [
@@ -82,7 +81,10 @@ function FormViajes(props) {
   const classes = useStyles();
 
   return (
-    <form className={classes.layout} onSubmit={props.editable ? handleEdit : handleSubmit}>
+    <form
+      className={classes.layout}
+      onSubmit={props.editable ? handleEdit : handleSubmit}
+    >
       <Typography variant="h6" gutterBottom>
         Ingresar Nuevo Viaje
       </Typography>
@@ -107,9 +109,7 @@ function FormViajes(props) {
             required
           >
             <option></option>
-            {fleteros.map((fletero) => {
-              return <option value={fletero.id}>{fletero.name}</option>;
-            })}
+            {fleteros.map((fletero) =>  <option value={fletero.name}>{fletero.name}</option>)}
           </Select>
         </Grid>
         <Grid item xs={12}>
@@ -177,11 +177,7 @@ function FormViajes(props) {
           />
         </Grid>
         <Grid item xs={12}>
-          <Button
-            variant="contained"
-            type="submit"
-            color="primary"
-          >
+          <Button variant="contained" type="submit" color="primary">
             {props.editable ? "Editar" : "Enviar"}
           </Button>
         </Grid>

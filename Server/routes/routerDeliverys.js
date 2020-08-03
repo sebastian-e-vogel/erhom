@@ -5,7 +5,8 @@ const {
   updateDelivery,
   getDeliverys,
   getDelivery,
-} = require("../controllers/routerDeliverys");
+} = require("../controllers/controllerDeliverys");
+
 const routerDeliverys = express.Router();
 
 routerDeliverys.post("/newDelivery", newDelivery);
