@@ -43,6 +43,8 @@ function FormViajes(props) {
     });
   };
 
+
+//Setting in inputs data to edit
   useEffect(() => {
     props.editable
       ? setViaje({

@@ -8,7 +8,7 @@ const DeliverySchema = new Schema({
   direccionHasta: { type: String, required: true },
   fecha: { type: Date, default: Date.now, required: true },
   precio: { type: Number, required: true },
-  comentarios: { type: String },
+  comentarios: { type: String, default: ""},
   viajeCobrado: { type: Boolean, required: true },
 }, {timestamps: {createdAt: true, updateAt: true}}
 );

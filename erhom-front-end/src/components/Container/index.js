@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 import FormViajes from "../formViajes";
 import TablaViajes from "../viajes";
@@ -20,15 +20,37 @@ const styles = makeStyles((theme) => ({
 const Container = () => {
   const [viajes, setViajes] = useState([]);
   const [open, setOpen] = useState(false);
-  const [infoEditable, setInfoEditable] = useState({})
+  const [infoEditable, setInfoEditable] = useState({});
 
-  const handleData = (viaje) => {
-    setViajes([...viajes, viaje]);
+  useEffect(() => {
+    const apiUrl = "http://localhost:4000/v1/getAllDeliverys";
+
+    const getAllDeliveries = async (url) => {
+      const response = await fetch(url);
+      const deliveries = await response.json();
+      setViajes(deliveries.data);
+    };
+    getAllDeliveries(apiUrl);
+    console.log("state", viajes);
+  }, []);
+
+  const handleData = async (delivery) => {
+    let deliveryPriceTypeNumber = {
+      ...delivery,
+      precio: parseInt(delivery.precio),
+    };
+    let apiUrl = "http://localhost:4000/v1/newDelivery";
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...deliveryPriceTypeNumber }),
+    });
+    setViajes([...viajes, deliveryPriceTypeNumber]);
   };
 
- const handlePrueba =(info)=>{
-   setInfoEditable(info)
- }
+  const handlePrueba = (info) => {
+    setInfoEditable(info);
+  };
 
   const classes = styles();
   return (
@@ -51,11 +73,11 @@ const Container = () => {
             <Route path="/viajes">
               <FormViajes data={(viaje) => handleData(viaje)} />
             </Route>
-             <Route path="/edit">
-              <FormViajes data={infoEditable} editable={true}/>
+            <Route path="/edit">
+              <FormViajes data={infoEditable} editable={true} />
             </Route>
             <Route path="/consultas">
-              <TablaViajes viajes={viajes} edit={handlePrueba}/>
+              <TablaViajes viajes={viajes} edit={handlePrueba} />
             </Route>
           </div>
         </div>

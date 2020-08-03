@@ -41,8 +41,16 @@ const updateDelivery = (req, res) => {
     `aca se tiene que actualizar el siguiente usuario: ${req.params.id}`
   );
 };
-const getDeliverys = (req, res) => {
-  res.send({ status: "OK", data: [] });
+const getDeliverys = async (req, res) => {
+  try{
+
+    deliveries = await Delivery.find()
+
+  res.send({ status: "OK", data: deliveries });
+  } catch (error) {
+    res.status(500).send({ status: "ERROR", message: error.message });
+  }
+
 };
 const getDelivery = (req, res) => {
   res.send({ status: "OK", message: `el usuario es ${req.params.id}` });
