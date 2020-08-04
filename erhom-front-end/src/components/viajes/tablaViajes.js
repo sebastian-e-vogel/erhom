@@ -10,7 +10,6 @@ import {
 import Row from "./row";
 
 const CollapsibleTable = (props) => {
-  // console.log(props)
   return (
     <TableContainer>
       <Table aria-label="collapsible table">

@@ -1,17 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./styles.css";
 import { Grid, Typography } from "@material-ui/core";
 import CollapsibleTable from "./tablaViajes";
 import Filters from "./filters";
 
 function TablaViajes(props) {
+  const filtersApplied = { fleteroId: "", fecha: "" };
   const [deliveriesFiltered, setDeliveriesFiltered] = useState([]);
+  const [filterApplied, setFilterApplied] = useState(filtersApplied);
 
-  let totalViajes = props.viajes.reduce((acc, obj) => {
+  let totalViajes = deliveriesFiltered.reduce((acc, obj) => {
     return acc + parseInt(obj.precio);
   }, 0);
 
-  let cobradoFletero = props.viajes.reduce((acumulador, obj) => {
+  let cobradoFletero = deliveriesFiltered.reduce((acumulador, obj) => {
     if (obj.viajeCobrado) {
       return acumulador + parseInt(obj.precio);
     } else {
@@ -24,30 +26,40 @@ function TablaViajes(props) {
   let totalFacu = (totalViajes * comisionFacu) / 100;
 
   let handleFilters = (filterValue, filterName) => {
+    let filterToSet = { ...filterApplied, [filterName]: filterValue };
+    setFilterApplied(filterToSet);
+  };
+
+  useEffect(() => {
+    filterDeliveries();
+  }, [filterApplied]);
+
+   const filterDeliveries = () => {
     const { viajes } = props;
-      // cambiar esto por que esta mal estoy apuntando al mismo en memoria 
+    const { fleteroId, fecha } = filterApplied;
+
     let filterByFletero = [...viajes];
-    if (filterValue != "" && filterName === "fleteroId") {
+    if (fleteroId !== "") {
       filterByFletero = viajes.filter((viaje) => {
-        return viaje.fleteroId === filterValue;
+        return viaje.fleteroId === fleteroId;
+      });
+    }
+    let filterByDate = [...filterByFletero];
+    if (fecha !== "") {
+      filterByDate = filterByDate.filter((viaje) => {
+        return viaje.fecha.includes(fecha);
       });
     }
 
-    let filterByDate = filterByFletero.filter((viaje) => {
-      return viaje.fecha.includes(filterValue);
-    });
-
-    console.log('antes de setear', filterByDate)
-
-    setDeliveriesFiltered(filterByDate)
-
+  setDeliveriesFiltered(filterByDate)
+    
   };
-console.log(deliveriesFiltered)
+
   return (
     <div className="grid-freight">
       <Filters applyFilters={handleFilters} />
       <div className="deliverys-grid">
-        <CollapsibleTable viajes={deliveriesFiltered.length > 0 ? deliveriesFiltered : props.viajes} edit={props.edit} />
+        <CollapsibleTable viajes={deliveriesFiltered} edit={props.edit} />
       </div>
       <Grid container spacing={4}>
         <Grid item xs={12} md={4}>

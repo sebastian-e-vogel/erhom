@@ -1,15 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React from "react";
 
 import {
   Grid,
   TextField,
-  FormControlLabel,
-  Button,
   Select,
-  Input,
-  Checkbox,
-  Typography,
 } from "@material-ui/core";
 const Filters = ({applyFilters}) => {
 

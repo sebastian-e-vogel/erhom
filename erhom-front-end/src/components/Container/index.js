@@ -32,13 +32,13 @@ const Container = () => {
     getAllDeliveries(apiUrl);
   }, []);
 
-  const handleData = async (delivery) => {
+  const handleData = (delivery) => {
     let deliveryPriceTypeNumber = {
       ...delivery,
       precio: parseInt(delivery.precio),
     };
     let apiUrl = "http://localhost:4000/v1/newDelivery";
-    const response = await fetch(apiUrl, {
+    fetch(apiUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...deliveryPriceTypeNumber }),
