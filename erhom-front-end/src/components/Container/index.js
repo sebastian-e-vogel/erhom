@@ -24,14 +24,12 @@ const Container = () => {
 
   useEffect(() => {
     const apiUrl = "http://localhost:4000/v1/getAllDeliverys";
-
     const getAllDeliveries = async (url) => {
       const response = await fetch(url);
       const deliveries = await response.json();
       setViajes(deliveries.data);
     };
     getAllDeliveries(apiUrl);
-    console.log("state", viajes);
   }, []);
 
   const handleData = async (delivery) => {

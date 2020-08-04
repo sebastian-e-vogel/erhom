@@ -32,13 +32,23 @@ const useRowStyles = makeStyles({
 
 const Row = (props) => {
   const { viaje, edit } = props;
-
   const [open, setOpen] = useState(false);
   const classes = useRowStyles();
 
   const handleEdit = () => {
     edit(viaje);
   };
+
+
+ const changeFormatDate = (date) => {
+   
+   let fecha = new Date(date)
+  let day = fecha.getDate() + 1 ;
+  let month = fecha.getMonth() + 1 ;
+  let year = fecha.getFullYear();
+  let newDate = day + "/" + month + "/" + year;
+  return newDate;
+};
 
   return (
     <React.Fragment>
@@ -66,7 +76,7 @@ const Row = (props) => {
           <TableCell component="th" scope="row">
             {viaje.nombreCliente}
           </TableCell>
-          <TableCell align="right">{viaje.fecha}</TableCell>
+          <TableCell align="right">{changeFormatDate(viaje.fecha)}</TableCell>
           <TableCell align="right">{viaje.fleteroId}</TableCell>
           <TableCell align="right">
             {viaje.viajeCobrado ? "si" : "no"}
