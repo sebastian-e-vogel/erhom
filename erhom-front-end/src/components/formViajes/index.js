@@ -88,7 +88,7 @@ function FormViajes(props) {
       onSubmit={props.editable ? handleEdit : handleSubmit}
     >
       <Typography variant="h6" gutterBottom>
-        Ingresar Nuevo Viaje
+        {props.title}
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12} md={5}>

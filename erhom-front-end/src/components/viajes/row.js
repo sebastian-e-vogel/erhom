@@ -16,6 +16,7 @@ import {
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import EditIcon from "@material-ui/icons/Edit";
+import AlertDeliveryDelete from "./alertDeliveryDelete";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 const useRowStyles = makeStyles({
@@ -39,16 +40,14 @@ const Row = (props) => {
     edit(viaje);
   };
 
-
- const changeFormatDate = (date) => {
-   
-   let fecha = new Date(date)
-  let day = fecha.getDate() + 1 ;
-  let month = fecha.getMonth() + 1 ;
-  let year = fecha.getFullYear();
-  let newDate = day + "/" + month + "/" + year;
-  return newDate;
-};
+  const changeFormatDate = (date) => {
+    let fecha = new Date(date);
+    let day = fecha.getDate() + 1;
+    let month = fecha.getMonth() + 1;
+    let year = fecha.getFullYear();
+    let newDate = day + "/" + month + "/" + year;
+    return newDate;
+  };
 
   return (
     <React.Fragment>
@@ -67,10 +66,7 @@ const Row = (props) => {
                 <EditIcon />
               </IconButton>
             </NavLink>
-
-            <IconButton size="small" onClick={() => setOpen(!open)}>
-              <DeleteIcon />
-            </IconButton>
+            <AlertDeliveryDelete />
           </TableCell>
 
           <TableCell component="th" scope="row">

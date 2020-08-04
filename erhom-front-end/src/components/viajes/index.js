@@ -34,7 +34,7 @@ function TablaViajes(props) {
     filterDeliveries();
   }, [filterApplied]);
 
-   const filterDeliveries = () => {
+  const filterDeliveries = () => {
     const { viajes } = props;
     const { fleteroId, fecha } = filterApplied;
 
@@ -51,8 +51,7 @@ function TablaViajes(props) {
       });
     }
 
-  setDeliveriesFiltered(filterByDate)
-    
+    setDeliveriesFiltered(filterByDate);
   };
 
   return (

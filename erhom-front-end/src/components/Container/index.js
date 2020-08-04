@@ -21,6 +21,7 @@ const Container = () => {
   const [viajes, setViajes] = useState([]);
   const [open, setOpen] = useState(false);
   const [infoEditable, setInfoEditable] = useState({});
+  const [updateDeliveries, setUpdateDeliveries] = useState(false);
 
   useEffect(() => {
     const apiUrl = "http://localhost:4000/v1/getAllDeliverys";
@@ -30,9 +31,9 @@ const Container = () => {
       setViajes(deliveries.data);
     };
     getAllDeliveries(apiUrl);
-  }, []);
+  }, [updateDeliveries]);
 
-  const handleData = (delivery) => {
+  const handleNewDelivery = (delivery) => {
     let deliveryPriceTypeNumber = {
       ...delivery,
       precio: parseInt(delivery.precio),
@@ -43,11 +44,13 @@ const Container = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...deliveryPriceTypeNumber }),
     });
-    setViajes([...viajes, deliveryPriceTypeNumber]);
+    setUpdateDeliveries(!updateDeliveries);
   };
 
-  const handlePrueba = (info) => {
+
+  const handleEdit = (info) => {
     setInfoEditable(info);
+    console.log(info);
   };
 
   const classes = styles();
@@ -69,13 +72,15 @@ const Container = () => {
         <div className={classes.content}>
           <div className={classes.toolbar}>
             <Route path="/viajes">
-              <FormViajes data={(viaje) => handleData(viaje)} />
+              <FormViajes
+                data={(newDelivery) => handleNewDelivery(newDelivery)} title="Ingresar Nuevo Viaje"
+              />
             </Route>
             <Route path="/edit">
-              <FormViajes data={infoEditable} editable={true} />
+              <FormViajes data={infoEditable} editable={true} title= "Editar Viaje"/>
             </Route>
             <Route path="/consultas">
-              <TablaViajes viajes={viajes} edit={handlePrueba} />
+              <TablaViajes viajes={viajes} edit={handleEdit} />
             </Route>
           </div>
         </div>
