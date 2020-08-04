@@ -29,30 +29,53 @@ const newDelivery = async (req, res) => {
 };
 
 const deleteDelivery = async (req, res) => {
-  try{
+  try {
     await Delivery.deleteOne({ _id: req.params.id });
-    res.send({ status: "OK", message: "user deleted" });
-  }catch (error) {
+    res.status(201).send({ success: true });
+  } catch (error) {
     res.status(500).send({ status: "ERROR", message: error.message });
   }
 };
 
-const updateDelivery = (req, res) => {
-  res.send({ status: "OK", message: "user updated" });
-  console.log(
-    `aca se tiene que actualizar el siguiente usuario: ${req.params.id}`
-  );
-};
-const getDeliverys = async (req, res) => {
-  try{
-
-    deliveries = await Delivery.find()
-
-  res.send({ status: "OK", data: deliveries });
+const updateDelivery = async (req, res) => {
+  try {
+    const {
+      fleteroId,
+      nombreCliente,
+      direccionDesde,
+      direccionHasta,
+      fecha,
+      precio,
+      comentarios,
+      viajeCobrado,
+    } = req.body;
+    await Delivery.updateOne(
+      { _id: req.params.id },
+      {
+        fleteroId,
+        nombreCliente,
+        direccionDesde,
+        direccionHasta,
+        fecha,
+        precio,
+        comentarios,
+        viajeCobrado,
+      }
+    );
+    res.status(201).send({ success: true });
   } catch (error) {
     res.status(500).send({ status: "ERROR", message: error.message });
   }
 
+};
+const getDeliverys = async (req, res) => {
+  try {
+    deliveries = await Delivery.find();
+
+    res.send({ status: "OK", data: deliveries });
+  } catch (error) {
+    res.status(500).send({ status: "ERROR", message: error.message });
+  }
 };
 const getDelivery = (req, res) => {
   res.send({ status: "OK", message: `el usuario es ${req.params.id}` });

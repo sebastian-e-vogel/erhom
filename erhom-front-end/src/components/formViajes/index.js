@@ -29,10 +29,27 @@ function FormViajes(props) {
     comentarios: "",
     viajeCobrado: false,
   });
+  //Setting in inputs data to edit
+  useEffect(() => {
+    props.editable
+      ? setViaje({
+          nombreCliente: props.deliveryToEdit.nombreCliente,
+          direccionDesde: props.deliveryToEdit.direccionDesde,
+          direccionHasta: props.deliveryToEdit.direccionHasta,
+          precio: props.deliveryToEdit.precio,
+          fleteroId: props.deliveryToEdit.fleteroId,
+          fecha: props.deliveryToEdit.fecha,
+          comentarios: props.deliveryToEdit.comentarios,
+          viajeCobrado: props.deliveryToEdit.viajeCobrado,
+        })
+      : setViaje({ ...viaje });
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    props.data(viaje);
+    props.editable
+      ? props.handleDeliveryEdited(viaje)
+      : props.setNewDelivery(viaje);
     setViaje({
       ...viaje,
       nombreCliente: "",
@@ -41,27 +58,6 @@ function FormViajes(props) {
       comentarios: "",
       viajeCobrado: false,
     });
-  };
-
-
-//Setting in inputs data to edit
-  useEffect(() => {
-    props.editable
-      ? setViaje({
-          nombreCliente: props.data.nombreCliente,
-          direccionDesde: props.data.direccionDesde,
-          direccionHasta: props.data.direccionHasta,
-          precio: props.data.precio,
-          fleteroId: props.data.fleteroId,
-          fecha: props.data.fecha,
-          comentarios: props.data.comentarios,
-          viajeCobrado: props.data.viajeCobrado,
-        })
-      : setViaje({ ...viaje });
-  }, []);
-
-  const handleEdit = (e) => {
-    e.preventDefault();
   };
 
   const handleChange = (e) => {
@@ -83,10 +79,7 @@ function FormViajes(props) {
   const classes = useStyles();
 
   return (
-    <form
-      className={classes.layout}
-      onSubmit={props.editable ? handleEdit : handleSubmit}
-    >
+    <form className={classes.layout} onSubmit={handleSubmit}>
       <Typography variant="h6" gutterBottom>
         {props.title}
       </Typography>
@@ -111,7 +104,9 @@ function FormViajes(props) {
             required
           >
             <option></option>
-            {fleteros.map((fletero) =>  <option value={fletero.name}>{fletero.name}</option>)}
+            {fleteros.map((fletero) => (
+              <option value={fletero.name}>{fletero.name}</option>
+            ))}
           </Select>
         </Grid>
         <Grid item xs={12}>

@@ -20,7 +20,7 @@ const styles = makeStyles((theme) => ({
 const Container = () => {
   const [viajes, setViajes] = useState([]);
   const [open, setOpen] = useState(false);
-  const [infoEditable, setInfoEditable] = useState({});
+  const [deliveryToEdit, setDeliveryToEdit] = useState({});
   const [updateDeliveries, setUpdateDeliveries] = useState(false);
 
   useEffect(() => {
@@ -47,20 +47,31 @@ const Container = () => {
     setUpdateDeliveries(!updateDeliveries);
   };
 
-  const handleEdit = (info) => {
-    setInfoEditable(info);
-    console.log(info);
+  const handleEdit = (delivery) => {
+    setDeliveryToEdit(delivery);
+    
   };
 
- const deleteDeliveryInDataBase = (deliveryId) =>{
-let apiUrl = "http://localhost:4000/v1/deleteDelivery/" + deliveryId;
- fetch(apiUrl, {
+  const deleteDeliveryInDataBase = (deliveryId) => {
+    let apiUrl = "http://localhost:4000/v1/deleteDelivery/" + deliveryId;
+    fetch(apiUrl, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     });
-    setUpdateDeliveries(!updateDeliveries)
- }
+    setUpdateDeliveries(!updateDeliveries);
+  };
 
+  const setDeliveryEdited = (deliveryEdited) => {
+    deliveryEdited = {...deliveryToEdit, ...deliveryEdited}
+    let apiUrl = "http://localhost:4000/v1/updateDelivery/" + deliveryEdited._id;
+    fetch(apiUrl, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...deliveryEdited }),
+    });
+    setUpdateDeliveries(!updateDeliveries);
+    
+  };
 
   const classes = styles();
   return (
@@ -82,13 +93,14 @@ let apiUrl = "http://localhost:4000/v1/deleteDelivery/" + deliveryId;
           <div className={classes.toolbar}>
             <Route path="/viajes">
               <FormViajes
-                data={(newDelivery) => handleNewDelivery(newDelivery)}
+                setNewDelivery={(newDelivery) => handleNewDelivery(newDelivery)}
                 title="Ingresar Nuevo Viaje"
               />
             </Route>
             <Route path="/edit">
               <FormViajes
-                data={infoEditable}
+                deliveryToEdit={deliveryToEdit}
+                handleDeliveryEdited={setDeliveryEdited}
                 editable={true}
                 title="Editar Viaje"
               />
