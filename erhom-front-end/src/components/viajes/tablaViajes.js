@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core/";
 import Row from "./row";
 
-const TableDeliveries = (props) => {
+const TableDeliveries = ({deliveries, edit, handleDeleteDelivery }) => {
   return (
     <TableContainer>
       <Table aria-label="collapsible table">
@@ -24,8 +24,8 @@ const TableDeliveries = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.viajes.map((viaje) => (
-            <Row viaje={viaje} edit={props.edit} handleDeleteDelivery={(deliveryId)=>props.handleDeleteDelivery(deliveryId)}/>
+          {deliveries.map((delivery) => (
+            <Row key={delivery._id} viaje={delivery} edit={edit} handleDeleteDelivery={(deliveryId)=>handleDeleteDelivery(deliveryId)}/>
           ))}
         </TableBody>
       </Table>

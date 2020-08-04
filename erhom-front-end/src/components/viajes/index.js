@@ -68,7 +68,7 @@ const handleDeleteDelivery = (deliveryId) =>{
     <div className="grid-freight">
       <Filters applyFilters={handleFilters} />
       <div className="deliverys-grid">
-        <TableDeliveries handleDeleteDelivery={handleDeleteDelivery} viajes={deliveriesFiltered} edit={props.edit} />
+        <TableDeliveries handleDeleteDelivery={handleDeleteDelivery} deliveries={deliveriesFiltered} edit={props.edit} />
       </div>
       <Grid container spacing={4}>
         <Grid item xs={12} md={4}>

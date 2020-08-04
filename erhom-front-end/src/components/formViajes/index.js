@@ -102,10 +102,11 @@ function FormViajes(props) {
             value={viaje.fleteroId}
             onChange={handleChange}
             required
+            
           >
             <option></option>
             {fleteros.map((fletero) => (
-              <option value={fletero.name}>{fletero.name}</option>
+              <option key={fletero.id} value={fletero.name}>{fletero.name}</option>
             ))}
           </Select>
         </Grid>
