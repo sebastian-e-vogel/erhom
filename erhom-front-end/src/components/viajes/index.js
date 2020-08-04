@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./styles.css";
 import { Grid, Typography } from "@material-ui/core";
-import CollapsibleTable from "./tablaViajes";
+import TableDeliveries from "./tablaViajes";
 import Filters from "./filters";
 
 function TablaViajes(props) {
-  const filtersApplied = { fleteroId: "", fecha: "" };
+  const filtersApplied = { fleteroId: "", fecha: ""};
   const [deliveriesFiltered, setDeliveriesFiltered] = useState([]);
   const [filterApplied, setFilterApplied] = useState(filtersApplied);
 
@@ -54,11 +54,21 @@ function TablaViajes(props) {
     setDeliveriesFiltered(filterByDate);
   };
 
+const handleDeleteDelivery = (deliveryId) =>{
+  props.handleDeleteDeliveryInDataBase(deliveryId)
+  let newListOfDeliveries = deleteDelivery(deliveryId);
+  setDeliveriesFiltered(newListOfDeliveries)
+
+}
+  const deleteDelivery = (deliveryId) => {
+    return deliveriesFiltered.filter((delivery) => delivery._id !== deliveryId);
+  };
+
   return (
     <div className="grid-freight">
       <Filters applyFilters={handleFilters} />
       <div className="deliverys-grid">
-        <CollapsibleTable viajes={deliveriesFiltered} edit={props.edit} />
+        <TableDeliveries handleDeleteDelivery={handleDeleteDelivery} viajes={deliveriesFiltered} edit={props.edit} />
       </div>
       <Grid container spacing={4}>
         <Grid item xs={12} md={4}>

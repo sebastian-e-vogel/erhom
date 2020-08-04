@@ -17,7 +17,6 @@ import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import EditIcon from "@material-ui/icons/Edit";
 import AlertDeliveryDelete from "./alertDeliveryDelete";
-import DeleteIcon from "@material-ui/icons/Delete";
 
 const useRowStyles = makeStyles({
   root: {
@@ -66,7 +65,7 @@ const Row = (props) => {
                 <EditIcon />
               </IconButton>
             </NavLink>
-            <AlertDeliveryDelete />
+            <AlertDeliveryDelete deleteDelivery={()=> props.handleDeleteDelivery(viaje._id)}/>
           </TableCell>
 
           <TableCell component="th" scope="row">

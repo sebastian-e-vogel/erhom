@@ -28,11 +28,13 @@ const newDelivery = async (req, res) => {
   }
 };
 
-const deleteDelivery = (req, res) => {
-  res.send({ status: "OK", message: "usuario deleted" });
-  console.log(
-    `aca se tiene que eliminar el siguiente usuario: ${req.params.id}`
-  );
+const deleteDelivery = async (req, res) => {
+  try{
+    await Delivery.deleteOne({ _id: req.params.id });
+    res.send({ status: "OK", message: "user deleted" });
+  }catch (error) {
+    res.status(500).send({ status: "ERROR", message: error.message });
+  }
 };
 
 const updateDelivery = (req, res) => {

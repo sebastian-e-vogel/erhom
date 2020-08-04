@@ -47,11 +47,20 @@ const Container = () => {
     setUpdateDeliveries(!updateDeliveries);
   };
 
-
   const handleEdit = (info) => {
     setInfoEditable(info);
     console.log(info);
   };
+
+ const deleteDeliveryInDataBase = (deliveryId) =>{
+let apiUrl = "http://localhost:4000/v1/deleteDelivery/" + deliveryId;
+ fetch(apiUrl, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+    setUpdateDeliveries(!updateDeliveries)
+ }
+
 
   const classes = styles();
   return (
@@ -73,14 +82,23 @@ const Container = () => {
           <div className={classes.toolbar}>
             <Route path="/viajes">
               <FormViajes
-                data={(newDelivery) => handleNewDelivery(newDelivery)} title="Ingresar Nuevo Viaje"
+                data={(newDelivery) => handleNewDelivery(newDelivery)}
+                title="Ingresar Nuevo Viaje"
               />
             </Route>
             <Route path="/edit">
-              <FormViajes data={infoEditable} editable={true} title= "Editar Viaje"/>
+              <FormViajes
+                data={infoEditable}
+                editable={true}
+                title="Editar Viaje"
+              />
             </Route>
             <Route path="/consultas">
-              <TablaViajes viajes={viajes} edit={handleEdit} />
+              <TablaViajes
+                viajes={viajes}
+                edit={handleEdit}
+                handleDeleteDeliveryInDataBase={deleteDeliveryInDataBase}
+              />
             </Route>
           </div>
         </div>

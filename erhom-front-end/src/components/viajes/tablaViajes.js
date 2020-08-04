@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core/";
 import Row from "./row";
 
-const CollapsibleTable = (props) => {
+const TableDeliveries = (props) => {
   return (
     <TableContainer>
       <Table aria-label="collapsible table">
@@ -25,7 +25,7 @@ const CollapsibleTable = (props) => {
         </TableHead>
         <TableBody>
           {props.viajes.map((viaje) => (
-            <Row viaje={viaje} edit={props.edit}/>
+            <Row viaje={viaje} edit={props.edit} handleDeleteDelivery={(deliveryId)=>props.handleDeleteDelivery(deliveryId)}/>
           ))}
         </TableBody>
       </Table>
@@ -33,4 +33,4 @@ const CollapsibleTable = (props) => {
   );
 };
 
-export default CollapsibleTable;
+export default TableDeliveries;
