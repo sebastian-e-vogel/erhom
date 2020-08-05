@@ -5,7 +5,7 @@ import TableDeliveries from "./tablaViajes";
 import Filters from "./filters";
 
 function TablaViajes(props) {
-  const filtersApplied = { fleteroId: "", fecha: "" };
+  const filtersApplied = { fleteroName: "", fecha: "" };
   const [deliveriesFiltered, setDeliveriesFiltered] = useState([]);
   const [filterApplied, setFilterApplied] = useState(filtersApplied);
 
@@ -32,12 +32,12 @@ function TablaViajes(props) {
 
   const filterDeliveries = () => {
     const { viajes } = props;
-    const { fleteroId, fecha } = filterApplied;
+    const { fleteroName, fecha } = filterApplied;
 
     let filterByFletero = [...viajes];
-    if (fleteroId !== "") {
+    if (fleteroName !== "") {
       filterByFletero = viajes.filter((viaje) => {
-        return viaje.fleteroId === fleteroId;
+        return viaje.fleteroName === fleteroName;
       });
     }
     let filterByDate = [...filterByFletero];

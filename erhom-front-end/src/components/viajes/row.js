@@ -72,7 +72,7 @@ const Row = (props) => {
             {viaje.nombreCliente}
           </TableCell>
           <TableCell align="right">{changeFormatDate(viaje.fecha)}</TableCell>
-          <TableCell align="right">{viaje.fleteroId}</TableCell>
+          <TableCell align="right">{viaje.fleteroName}</TableCell>
           <TableCell align="right">
             {viaje.viajeCobrado ? "si" : "no"}
           </TableCell>

@@ -18,9 +18,8 @@ const fleteros = [
   { id: 2, name: "pepe", comision: 30 },
 ];
 
-function FormViajes(props) {
-  const [viaje, setViaje] = useState({
-    fleteroId: "",
+const initialState = {
+    fleteroName: "",
     nombreCliente: "",
     direccionDesde: "",
     direccionHasta: "",
@@ -28,7 +27,12 @@ function FormViajes(props) {
     precio: "",
     comentarios: "",
     viajeCobrado: false,
-  });
+  }
+
+function FormViajes(props) {
+
+  const [viaje, setViaje] = useState(initialState);
+
   //Setting in inputs data to edit
   useEffect(() => {
     props.editable
@@ -37,7 +41,7 @@ function FormViajes(props) {
           direccionDesde: props.deliveryToEdit.direccionDesde,
           direccionHasta: props.deliveryToEdit.direccionHasta,
           precio: props.deliveryToEdit.precio,
-          fleteroId: props.deliveryToEdit.fleteroId,
+          fleteroName: props.deliveryToEdit.fleteroName,
           fecha: props.deliveryToEdit.fecha,
           comentarios: props.deliveryToEdit.comentarios,
           viajeCobrado: props.deliveryToEdit.viajeCobrado,
@@ -97,9 +101,9 @@ function FormViajes(props) {
         <Grid item xs={12} md={7}>
           <Select
             native
-            name="fleteroId"
+            name="fleteroName"
             fullWidth
-            value={viaje.fleteroId}
+            value={viaje.fleteroName}
             onChange={handleChange}
             required
             

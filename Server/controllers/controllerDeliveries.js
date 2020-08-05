@@ -3,7 +3,7 @@ const { Delivery } = require("../models/index");
 const newDelivery = async (req, res) => {
   try {
     const {
-      fleteroId,
+      fleteroName,
       nombreCliente,
       direccionDesde,
       direccionHasta,
@@ -13,7 +13,7 @@ const newDelivery = async (req, res) => {
       viajeCobrado,
     } = req.body;
     await Delivery.create({
-      fleteroId,
+      fleteroName,
       nombreCliente,
       direccionDesde,
       direccionHasta,
@@ -40,7 +40,7 @@ const deleteDelivery = async (req, res) => {
 const updateDelivery = async (req, res) => {
   try {
     const {
-      fleteroId,
+      fleteroName,
       nombreCliente,
       direccionDesde,
       direccionHasta,
@@ -52,7 +52,7 @@ const updateDelivery = async (req, res) => {
     await Delivery.updateOne(
       { _id: req.params.id },
       {
-        fleteroId,
+        fleteroName,
         nombreCliente,
         direccionDesde,
         direccionHasta,
