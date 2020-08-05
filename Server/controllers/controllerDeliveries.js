@@ -4,7 +4,7 @@ const newDelivery = async (req, res) => {
   try {
     const {
       fleteroName,
-      nombreCliente,
+      _idCliente,
       direccionDesde,
       direccionHasta,
       fecha,
@@ -14,7 +14,7 @@ const newDelivery = async (req, res) => {
     } = req.body;
     await Delivery.create({
       fleteroName,
-      nombreCliente,
+      _idCliente,
       direccionDesde,
       direccionHasta,
       fecha,

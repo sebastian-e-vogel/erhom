@@ -1,8 +1,14 @@
+const { Client } = require("../models/index");
+
 
 const newClient = async (req, res) => {
   try {
-    console.log(req.body)
-    res.status(201).send({ success: true });
+    const { nombreCliente, direccion } = req.body;
+    await Client.create({
+      nombreCliente,
+      direccion,
+    });
+    res.status(201).send({ success: true, message: req.body });
   } catch (error) {
     res.status(500).send({ status: "ERROR", message: error.message });
   }

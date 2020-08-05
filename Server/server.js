@@ -10,7 +10,7 @@ mongoose
   })
   .then(() => {
     console.log("conectado a la base");
-app.listen(4000, () => console.log(`listen on port: ${appConfig.port}`));
+app.listen(appConfig.port | 4000, () => console.log(`listen on port: ${appConfig.port}`));
 })
 .catch((error) => {
   console.log("error", error);
