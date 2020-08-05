@@ -22,7 +22,7 @@ const newDelivery = async (req, res) => {
       comentarios,
       viajeCobrado,
     });
-    res.status(201).send({ success: true });
+    res.status(201).send({ success: true, message: req.body});
   } catch (error) {
     res.status(500).send({ status: "ERROR", message: error.message });
   }
@@ -68,7 +68,7 @@ const updateDelivery = async (req, res) => {
   }
 
 };
-const getDeliverys = async (req, res) => {
+const getDeliveries = async (req, res) => {
   try {
     deliveries = await Delivery.find();
 
@@ -88,6 +88,6 @@ module.exports = {
   newDelivery,
   updateDelivery,
   deleteDelivery,
-  getDeliverys,
+  getDeliveries,
   getDelivery,
 };
