@@ -9,7 +9,6 @@ import {
 } from "@material-ui/core/";
 
 
-
 const AlertDeliveryDelete = (props) => {
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {

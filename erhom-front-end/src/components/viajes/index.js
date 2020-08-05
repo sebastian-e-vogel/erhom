@@ -5,7 +5,7 @@ import TableDeliveries from "./tablaViajes";
 import Filters from "./filters";
 
 function TablaViajes(props) {
-  const filtersApplied = { fleteroId: "", fecha: ""};
+  const filtersApplied = { fleteroId: "", fecha: "" };
   const [deliveriesFiltered, setDeliveriesFiltered] = useState([]);
   const [filterApplied, setFilterApplied] = useState(filtersApplied);
 
@@ -30,10 +30,6 @@ function TablaViajes(props) {
     setFilterApplied(filterToSet);
   };
 
-  useEffect(() => {
-    filterDeliveries();
-  }, [filterApplied]);
-
   const filterDeliveries = () => {
     const { viajes } = props;
     const { fleteroId, fecha } = filterApplied;
@@ -54,12 +50,13 @@ function TablaViajes(props) {
     setDeliveriesFiltered(filterByDate);
   };
 
-const handleDeleteDelivery = (deliveryId) =>{
-  props.handleDeleteDeliveryInDataBase(deliveryId)
-  let newListOfDeliveries = deleteDelivery(deliveryId);
-  setDeliveriesFiltered(newListOfDeliveries)
+  useEffect(filterDeliveries, [filterApplied]);
 
-}
+  const handleDeleteDelivery = (deliveryId) => {
+    props.handleDeleteDeliveryInDataBase(deliveryId);
+    let newListOfDeliveries = deleteDelivery(deliveryId);
+    setDeliveriesFiltered(newListOfDeliveries);
+  };
   const deleteDelivery = (deliveryId) => {
     return deliveriesFiltered.filter((delivery) => delivery._id !== deliveryId);
   };
@@ -68,7 +65,11 @@ const handleDeleteDelivery = (deliveryId) =>{
     <div className="grid-freight">
       <Filters applyFilters={handleFilters} />
       <div className="deliverys-grid">
-        <TableDeliveries handleDeleteDelivery={handleDeleteDelivery} deliveries={deliveriesFiltered} edit={props.edit} />
+        <TableDeliveries
+          handleDeleteDelivery={handleDeleteDelivery}
+          deliveries={deliveriesFiltered}
+          edit={props.edit}
+        />
       </div>
       <Grid container spacing={4}>
         <Grid item xs={12} md={4}>
