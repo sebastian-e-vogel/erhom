@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import fleteros from "../../data/fleteros"
 
 import {
   Grid,
@@ -13,60 +14,65 @@ import {
   Typography,
 } from "@material-ui/core";
 
-const fleteros = [
-  { id: 1, name: "nacho", comision: 50 },
-  { id: 2, name: "pepe", comision: 30 },
-];
-
 const initialState = {
-    fleteroName: "",
-    nombreCliente: "",
-    direccionDesde: "",
-    direccionHasta: "",
-    fecha: "",
-    precio: "",
-    comentarios: "",
-    viajeCobrado: false,
-  }
+  fleteroName: "",
+  _idCliente: "",
+  nombreCliente: "",
+  direccionDesde: "",
+  direccionHasta: "",
+  fecha: "",
+  precio: "",
+  comentarios: "",
+  viajeCobrado: false,
+};
 
-function FormViajes(props) {
+const FormViajes =  props  => {
+
+  //destructuring props 
+  const {deliveryToEdit,
+  editable,
+  title,
+  clients,
+  handleDeliveryEdited,
+  setNewDelivery} = props
 
   const [viaje, setViaje] = useState(initialState);
 
+
   //Setting in inputs data to edit
+  
   useEffect(() => {
-    props.editable
+    editable
       ? setViaje({
-          nombreCliente: props.deliveryToEdit.nombreCliente,
-          direccionDesde: props.deliveryToEdit.direccionDesde,
-          direccionHasta: props.deliveryToEdit.direccionHasta,
-          precio: props.deliveryToEdit.precio,
-          fleteroName: props.deliveryToEdit.fleteroName,
-          fecha: props.deliveryToEdit.fecha,
-          comentarios: props.deliveryToEdit.comentarios,
-          viajeCobrado: props.deliveryToEdit.viajeCobrado,
+          _idCliente: deliveryToEdit._idCliente._id,
+          nombreCliente: deliveryToEdit._idCliente.nombreCliente,
+          direccionDesde: deliveryToEdit.direccionDesde,
+          direccionHasta: deliveryToEdit.direccionHasta,
+          precio: deliveryToEdit.precio,
+          fleteroName: deliveryToEdit.fleteroName,
+          fecha: deliveryToEdit.fecha,
+          comentarios: deliveryToEdit.comentarios,
+          viajeCobrado: deliveryToEdit.viajeCobrado,
         })
       : setViaje({ ...viaje });
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    props.editable
-      ? props.handleDeliveryEdited(viaje)
-      : props.setNewDelivery(viaje);
-    setViaje({
-      ...viaje,
-      nombreCliente: "",
-      direccionDesde: "",
-      direccionHasta: "",
-      comentarios: "",
-      viajeCobrado: false,
-    });
+    editable ? handleDeliveryEdited(viaje) : setNewDelivery(viaje);
+    setViaje({...initialState});
   };
 
   const handleChange = (e) => {
     setViaje({ ...viaje, [e.target.name]: e.target.value });
   };
+
+  const handleChangeClient = (e) => {
+    let foundClient = clients.find((client)=> client._id === e.target.value) 
+    let nombreCliente = foundClient.nombreCliente
+    setViaje({ ...viaje, [e.target.name]: e.target.value, nombreCliente });
+  };
+
 
   const handleChangeCheckbox = (e) => {
     setViaje({ ...viaje, viajeCobrado: !viaje.viajeCobrado });
@@ -85,7 +91,7 @@ function FormViajes(props) {
   return (
     <form className={classes.layout} onSubmit={handleSubmit}>
       <Typography variant="h6" gutterBottom>
-        {props.title}
+        {title}
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12} md={5}>
@@ -106,24 +112,33 @@ function FormViajes(props) {
             value={viaje.fleteroName}
             onChange={handleChange}
             required
-            
           >
             <option></option>
             {fleteros.map((fletero) => (
-              <option key={fletero.id} value={fletero.name}>{fletero.name}</option>
+              <option key={fletero.id} value={fletero.name}>
+                {fletero.name}
+              </option>
             ))}
           </Select>
         </Grid>
+
         <Grid item xs={12}>
-          <TextField
-            onChange={handleChange}
-            name="nombreCliente"
+          <Select
+            native
+            name="_idCliente"
+            // value={viaje.nombreCliente}
+            onChange={handleChangeClient}
             required
-            value={viaje.nombreCliente}
-            label="Nombre del Cliente"
-            fullWidth
-          />
+          >
+            <option></option>
+            {clients.map((client) => (
+              <option key={client._id} value={client._id}>
+                {client.nombreCliente}
+              </option>
+            ))}
+          </Select>
         </Grid>
+
         <Grid item xs={12} md={4}>
           <TextField
             name="direccionDesde"
@@ -180,12 +195,12 @@ function FormViajes(props) {
         </Grid>
         <Grid item xs={12}>
           <Button variant="contained" type="submit" color="primary">
-            {props.editable ? "Editar" : "Enviar"}
+            {editable ? "Editar" : "Enviar"}
           </Button>
         </Grid>
       </Grid>
     </form>
   );
-}
+};
 
 export default FormViajes;

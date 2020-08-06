@@ -22,7 +22,18 @@ const deleteClient = async (req, res) => {
   }
 };
 
+const getClients = async (req, res) => {
+  try {
+    clients = await Client.find();
+
+    res.send({ status: "OK", data: clients });
+  } catch (error) {
+    res.status(500).send({ status: "ERROR", message: error.message });
+  }
+};
+
 module.exports = {
   newClient,
   deleteClient,
+  getClients
 };

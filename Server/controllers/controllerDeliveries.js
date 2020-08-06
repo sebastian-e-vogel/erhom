@@ -22,7 +22,7 @@ const newDelivery = async (req, res) => {
       comentarios,
       viajeCobrado,
     });
-    res.status(201).send({ success: true, message: req.body});
+    res.status(201).send({ success: true, message: req.body });
   } catch (error) {
     res.status(500).send({ status: "ERROR", message: error.message });
   }
@@ -41,7 +41,7 @@ const updateDelivery = async (req, res) => {
   try {
     const {
       fleteroName,
-      nombreCliente,
+      _idCliente,
       direccionDesde,
       direccionHasta,
       fecha,
@@ -53,7 +53,7 @@ const updateDelivery = async (req, res) => {
       { _id: req.params.id },
       {
         fleteroName,
-        nombreCliente,
+        _idCliente,
         direccionDesde,
         direccionHasta,
         fecha,
@@ -66,11 +66,14 @@ const updateDelivery = async (req, res) => {
   } catch (error) {
     res.status(500).send({ status: "ERROR", message: error.message });
   }
-
 };
 const getDeliveries = async (req, res) => {
   try {
-    deliveries = await Delivery.find();
+    deliveries = await Delivery.find()
+      .populate("_idCliente", "nombreCliente")
+      .select(
+        "comentarios fleteroName direccionDesde direccionHasta fecha precio viajeCobrado"
+      );
 
     res.send({ status: "OK", data: deliveries });
   } catch (error) {

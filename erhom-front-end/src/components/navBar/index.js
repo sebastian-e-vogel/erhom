@@ -2,6 +2,8 @@ import React from 'react'
 
 import {AppBar, Toolbar,makeStyles, Typography,IconButton} from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
+import { Link } from "react-router-dom";
+
 
 const useStyles = makeStyles((theme)=>({
     root:{
@@ -15,7 +17,11 @@ const useStyles = makeStyles((theme)=>({
         width: `calc(100% - ${240}px)`,
         marginLeft: 240,
         }
-    }
+    },
+    linkRouter: {
+    color: "inherit",
+    textDecoration: "inherit",
+  },
 }))
 
 const NavBar = (props) =>{
@@ -27,7 +33,8 @@ const NavBar = (props) =>{
             <MenuIcon/>
             </IconButton>
                 <Typography>
-                Erhom Viajes
+                 <Link className={classes.linkRouter} to="/">Erhom Viajes</Link>
+
                 </Typography>
 
             </Toolbar>

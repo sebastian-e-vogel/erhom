@@ -12,6 +12,7 @@ import {
 import MotorcycleIcon from "@material-ui/icons/Motorcycle";
 import SportsMotorsportsIcon from "@material-ui/icons/SportsMotorsports";
 import AssessmentIcon from "@material-ui/icons/Assessment";
+import PersonAddIcon from "@material-ui/icons/PersonAdd";
 
 const useStyles = makeStyles({
   linkRouter: {
@@ -39,6 +40,15 @@ const MenuIcons = (props) => {
             <AssessmentIcon />
           </ListItemIcon>
           <ListItemText primary="Consultas" />
+        </ListItem>
+      </NavLink>
+
+      <NavLink to="/nuevoCliente" className={classes.linkRouter}>
+        <ListItem button onClick={props.onClose}>
+          <ListItemIcon>
+            <PersonAddIcon />
+          </ListItemIcon>
+          <ListItemText primary="Nuevo Cliente" />
         </ListItem>
       </NavLink>
 

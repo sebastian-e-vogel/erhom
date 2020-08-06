@@ -3,7 +3,6 @@ const { Schema } = mongoose;
 
 const DeliverySchema = new Schema({
   fleteroName: { type: String, required: true},
-  // nombreCliente: { type: String, required: true },
   _idCliente: {type: mongoose.Schema.Types.ObjectId, ref: 'Client', required: true},
   direccionDesde: { type: String, required: true },
   direccionHasta: { type: String, required: true },

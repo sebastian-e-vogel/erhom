@@ -5,7 +5,7 @@ import TableDeliveries from "./tablaViajes";
 import Filters from "./filters";
 
 function TablaViajes(props) {
-  const filtersApplied = { fleteroName: "", fecha: "" };
+  const filtersApplied = { fleteroName: "", fecha: "", _idCliente: "" };
   const [deliveriesFiltered, setDeliveriesFiltered] = useState([]);
   const [filterApplied, setFilterApplied] = useState(filtersApplied);
 
@@ -32,16 +32,25 @@ function TablaViajes(props) {
 
   const filterDeliveries = () => {
     const { viajes } = props;
-    const { fleteroName, fecha } = filterApplied;
+    const { fleteroName, fecha, _idCliente } = filterApplied;
 
     let filterByFletero = [...viajes];
-    if (fleteroName !== "") {
+
+    if (fleteroName) {
       filterByFletero = viajes.filter((viaje) => {
         return viaje.fleteroName === fleteroName;
       });
     }
-    let filterByDate = [...filterByFletero];
-    if (fecha !== "") {
+    let filterByClient = [...filterByFletero];
+
+    if (_idCliente) {
+      filterByClient = filterByClient.filter((viaje) => {
+        return viaje._idCliente._id === _idCliente;
+      });
+    }
+    let filterByDate = [...filterByClient];
+
+    if (fecha) {
       filterByDate = filterByDate.filter((viaje) => {
         return viaje.fecha.includes(fecha);
       });
@@ -57,13 +66,14 @@ function TablaViajes(props) {
     let newListOfDeliveries = deleteDelivery(deliveryId);
     setDeliveriesFiltered(newListOfDeliveries);
   };
+
   const deleteDelivery = (deliveryId) => {
     return deliveriesFiltered.filter((delivery) => delivery._id !== deliveryId);
   };
 
   return (
     <div className="grid-freight">
-      <Filters applyFilters={handleFilters} />
+      <Filters applyFilters={handleFilters} clients={props.clients} />
       <div className="deliverys-grid">
         <TableDeliveries
           handleDeleteDelivery={handleDeleteDelivery}

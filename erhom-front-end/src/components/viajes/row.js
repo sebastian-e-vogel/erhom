@@ -30,8 +30,7 @@ const useRowStyles = makeStyles({
   },
 });
 
-const Row = (props) => {
-  const { viaje, edit } = props;
+const Row = ({ viaje, edit, handleDeleteDelivery }) => {
   const [open, setOpen] = useState(false);
   const classes = useRowStyles();
 
@@ -47,6 +46,8 @@ const Row = (props) => {
     let newDate = day + "/" + month + "/" + year;
     return newDate;
   };
+
+  
 
   return (
     <React.Fragment>
@@ -65,11 +66,11 @@ const Row = (props) => {
                 <EditIcon />
               </IconButton>
             </NavLink>
-            <AlertDeliveryDelete deleteDelivery={()=> props.handleDeleteDelivery(viaje._id)}/>
+            <AlertDeliveryDelete deleteDelivery={()=> handleDeleteDelivery(viaje._id)}/>
           </TableCell>
 
           <TableCell component="th" scope="row">
-            {viaje.nombreCliente}
+          {viaje._idCliente.nombreCliente}
           </TableCell>
           <TableCell align="right">{changeFormatDate(viaje.fecha)}</TableCell>
           <TableCell align="right">{viaje.fleteroName}</TableCell>
