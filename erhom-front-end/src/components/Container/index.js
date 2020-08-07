@@ -6,8 +6,9 @@ import NavBar from "../navBar";
 import MenuLeft from "../menuLeft";
 import NuevoCliente from "../nuevoCliente";
 import { makeStyles, Hidden } from "@material-ui/core";
-import {Home} from '../HomePage'
-import {useFetchData} from '../../hooks/useFetchData'
+import { Home } from "../HomePage";
+import { useFetchGetData } from "../../hooks/useFetchGetData";
+import { useFetch } from "../../hooks/useFetch";
 const styles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -24,76 +25,69 @@ const Container = () => {
   const [clientes, setClientes] = useState([]);
   const [open, setOpen] = useState(false);
   const [deliveryToEdit, setDeliveryToEdit] = useState({});
-  const [updateDeliveries, setUpdateDeliveries] = useState(false);
-  const [updateClients, setUpdateClients] = useState(false);
+  const [newGetFetch, setnewGetFetch] = useState(false);
+  const [newFetch, setNewFetch] = useState({
+    url: "",
+    methodHTTP: "",
+    dataToFetch: {},
+  });
 
-  const [allDeliveries] = useFetchData('http://localhost:4000/v1/getAllDeliveries', updateDeliveries)
+  const urlBase = "http://localhost:4000/v1";
 
-  const urlBase = 'http://localhost:4000/v1/'
+  const [allDeliveries] = useFetchGetData(
+    `${urlBase}/getAllDeliveries`,
+    newGetFetch
+  );
+  const [allClients] = useFetchGetData(
+    `${urlBase}/getAllClients`,
+    newGetFetch
+  );
+  const { response, error, isLoading, refetch } = useFetch(newFetch);
 
   useEffect(() => {
     setViajes(allDeliveries.data);
-  }, [allDeliveries, updateDeliveries]);
+  }, [allDeliveries]);
 
   useEffect(() => {
-    const apiUrl = "http://localhost:4000/v1/getAllClients";
-    const getAllClients = async (url) => {
-      const response = await fetch(url);
-      const clientes = await response.json();
-      setClientes(clientes.data);
-    };
-    getAllClients(apiUrl);
-  }, [updateClients]);
+    setClientes(allClients.data);
+  }, [allClients]);
 
-  const handleNewDelivery = (delivery) => {
-    let deliveryPriceTypeNumber = {
+  const handleNewDelivery = async (delivery) => {
+    let url = `${urlBase}/newDelivery`;
+    let dataToFetch = {
       ...delivery,
       precio: parseInt(delivery.precio),
     };
-    let apiUrl = "http://localhost:4000/v1/newDelivery";
-    fetch(apiUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...deliveryPriceTypeNumber }),
-    });
-    setUpdateDeliveries(!updateDeliveries);
+    await setNewFetch({ dataToFetch, url, methodHTTP: "POST" });
+    setnewGetFetch(!newGetFetch);
   };
 
   const handleEdit = (delivery) => {
-   let fecha = delivery.fecha.substr(0, 10)
-    delivery = {...delivery, fecha}
+    let fecha = delivery.fecha.substr(0, 10);
+    delivery = { ...delivery, fecha };
     setDeliveryToEdit(delivery);
   };
 
-  const deleteDeliveryInDataBase = (deliveryId) => {
-    let apiUrl = "http://localhost:4000/v1/deleteDelivery/" + deliveryId;
-    fetch(apiUrl, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-    });
-    setUpdateDeliveries(!updateDeliveries);
+  const deleteDeliveryInDataBase = async (deliveryId) => {
+    let url = `${urlBase}/deleteDelivery/${deliveryId}`;
+    //is an async/await function, because needs wait the response before to execute useFetchGetData()
+    await setNewFetch({ ...newFetch, url, methodHTTP: "DELETE" });
+    setnewGetFetch(!newGetFetch);
   };
 
-  const setDeliveryEdited = (deliveryEdited) => {
-    deliveryEdited = { ...deliveryToEdit, ...deliveryEdited };
-    let apiUrl =
-      "http://localhost:4000/v1/updateDelivery/" + deliveryEdited._id;
-    fetch(apiUrl, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...deliveryEdited }),
-    });
-    setUpdateDeliveries(!updateDeliveries);
+  const setDeliveryEdited = async (deliveryEdited) => {
+    let dataToFetch = { ...deliveryToEdit, ...deliveryEdited };
+    let url = `${urlBase}/updateDelivery/${dataToFetch._id}`;
+    //is an async/await function, because needs wait the response before to execute useFetchGetData()
+    await setNewFetch({ dataToFetch, url, methodHTTP: "PUT" });
+    setnewGetFetch(!newGetFetch);
   };
 
-  const addNewClient = (newClient) => {
-    let apiUrl = "http://localhost:4000/v1/newClient";
-    fetch(apiUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...newClient }),
-    });
-    setUpdateClients(!updateClients);
+  const addNewClient = async (newClient) => {
+    let url = `${urlBase}/newClient`;
+    await setNewFetch({ dataToFetch: newClient, url, methodHTTP: "POST" });
+    setnewGetFetch(!newGetFetch);
+
   };
 
   const classes = styles();
@@ -111,16 +105,14 @@ const Container = () => {
             onClose={() => setOpen(!open)}
           />
         </Hidden>
-        
-        <div className={classes.content}>
 
-   
+        <div className={classes.content}>
           <div className={classes.toolbar}>
             <Route exact path="/">
-                  <Home />
-            </Route>    
-            
-                    <Route path="/viajes">
+              <Home />
+            </Route>
+
+            <Route path="/viajes">
               <FormViajes
                 setNewDelivery={(newDelivery) => handleNewDelivery(newDelivery)}
                 title="Ingresar Nuevo Viaje"

@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from "react";
 
-const useFetchData = (url, newFetch) =>{
+const useFetchGetData = (url, newFetch) =>{
     const [data, setData] = useState([])
 
 useEffect(() => {
@@ -10,9 +10,9 @@ useEffect(() => {
       setData(data);
     };
     getAllData(url);
+   
   }, [newFetch]);
-
 return [data]
 }
 
-export {useFetchData}
+export {useFetchGetData}
