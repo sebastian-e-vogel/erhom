@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 
 const useFetch = (props) => {
-  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
-  console.log('props',props)
   const doFetch = async (props) => {
     try {
       const response = await fetch(props.url, {
@@ -14,7 +12,6 @@ const useFetch = (props) => {
       if (!response.ok) {
         console.log('error',response.statusText);
       }
-      console.log('resonse', response.statusText)
     } catch (error) {
       setError(error.message);
     }
@@ -24,10 +21,7 @@ const useFetch = (props) => {
     doFetch(props);
   }, [props]);
 
-  return {
-    error,
-    isLoading,
-  };
+  return [error];
 };
 
 export { useFetch };

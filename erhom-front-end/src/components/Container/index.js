@@ -42,7 +42,7 @@ const Container = () => {
     `${urlBase}/getAllClients`,
     newGetFetch
   );
-  const { response, error, isLoading, refetch } = useFetch(newFetch);
+  const [error] = useFetch(newFetch);
 
   useEffect(() => {
     setViajes(allDeliveries.data);
