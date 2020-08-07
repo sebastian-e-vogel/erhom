@@ -7,7 +7,7 @@ import MenuLeft from "../menuLeft";
 import NuevoCliente from "../nuevoCliente";
 import { makeStyles, Hidden } from "@material-ui/core";
 import {Home} from '../HomePage'
-
+import {useFetchData} from '../../hooks/useFetchData'
 const styles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -27,15 +27,13 @@ const Container = () => {
   const [updateDeliveries, setUpdateDeliveries] = useState(false);
   const [updateClients, setUpdateClients] = useState(false);
 
+  const [allDeliveries] = useFetchData('http://localhost:4000/v1/getAllDeliveries', updateDeliveries)
+
+  const urlBase = 'http://localhost:4000/v1/'
+
   useEffect(() => {
-    const apiUrl = "http://localhost:4000/v1/getAllDeliveries";
-    const getAllDeliveries = async (url) => {
-      const response = await fetch(url);
-      const deliveries = await response.json();
-      setViajes(deliveries.data);
-    };
-    getAllDeliveries(apiUrl);
-  }, [updateDeliveries]);
+    setViajes(allDeliveries.data);
+  }, [allDeliveries, updateDeliveries]);
 
   useEffect(() => {
     const apiUrl = "http://localhost:4000/v1/getAllClients";
