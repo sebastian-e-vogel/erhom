@@ -10,7 +10,7 @@ const Filters = ({ applyFilters, clients }) => {
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} md={4}>
-        <Select
+    <Select
           native
           name="_idCliente"
           onChange={handleChange}
@@ -18,12 +18,13 @@ const Filters = ({ applyFilters, clients }) => {
           fullWidth
         >
           <option></option>
-          {clients.map((client) => (
+          {clients && clients.map((client) => (
             <option key={client._id} value={client._id}>
               {client.nombreCliente}
             </option>
           ))}
         </Select>
+       
       </Grid>
       <Grid item xs={12} md={4}>
         <TextField

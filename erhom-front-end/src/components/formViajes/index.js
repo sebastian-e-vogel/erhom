@@ -131,7 +131,7 @@ const FormViajes =  props  => {
             required
           >
             <option></option>
-            {clients.map((client) => (
+            {clients && clients.map((client) => (
               <option key={client._id} value={client._id}>
                 {client.nombreCliente}
               </option>
